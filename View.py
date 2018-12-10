@@ -1,4 +1,11 @@
+import osmnx as ox
+import networkx as nx
 import numpy as np
+import pickle as pkl
+import sys
+from gmplot import gmplot
+import json
+import requests
 
 class View(object):
 	def _init_(self):
@@ -7,6 +14,7 @@ class View(object):
 	def set_controller(self, controller):
 		self.controller = controller
 
+	#display the resulting route on the map 
 	def show_route(self, graph_projection, route, bbox):
 		print("Showing route")
 		# lat_long_list = []
@@ -26,6 +34,7 @@ class View(object):
 		# gmap.draw("my_map1.html")
 		ox.plot_graph_route(graph_projection, route, bbox = bbox, node_size=0)
 
+	#get input data from user
 	def get_data(self):
 		VALID_MODES = ['minimize', 'maximize']
 		origin_lat = input("Please enter the Latitude of the Origin \n")
@@ -42,6 +51,7 @@ class View(object):
 			raise ValueError("Mode invalid")
 		return origin_lat, origin_long, dest_lat, dest_long, overhead, mode
 
+	#show route statistics for the given route 
 	def show_stats(self, graph_projection, route):
 		route_lengths = ox.get_route_edge_attributes(graph_projection, route, 'length')
 		print('Total trip distance: {:,.0f} meters'.format(self.controller.get_total_length(graph_projection, route)))
