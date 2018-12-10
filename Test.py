@@ -215,7 +215,7 @@ def compare_algorithms(graph_orig, graph_projected, origin_lat_long, bbox_lat_lo
 		  "Modified_Dijkstra": dic["Modified_Dijkstra"]}
 	distance2 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
 		  "DFS_1_min_elevation": dic["DFS_1_min_elevation"]}
-	distance2 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
+	distance3 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
 		  "DFS_1_max_elevation": dic["DFS_1_max_elevation"]}
 	distance4 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
 		  "hybrid_min_elevation": dic["hybrid_min_elevation"]}
