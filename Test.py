@@ -44,7 +44,7 @@ def random_points_in_bbox(latitude, longitude, distance, num_points):
 
 	return lat_long_pair
 
-
+# drawing the graphs
 def plot_results(s_dist, se_dist, algo_dist):
 	x_axis = np.arange(len(s_dist))
 	import matplotlib.pyplot as plt
@@ -56,6 +56,7 @@ def plot_results(s_dist, se_dist, algo_dist):
 	plt.show()
 
 
+# drawing the graphs for the results
 def plot_results_from_dict(dic, plot_one=False, key_one=None, savename="comparison_chart", elev=False):
 	import matplotlib.pyplot as plt
 	x_axis = None
@@ -96,7 +97,7 @@ def set_max(max_curr, new_val):
 	else:
 		return max_curr
 
-
+# Creating tests for all three models
 def compare_algorithms(graph_orig, graph_projected, origin_lat_long, bbox_lat_long, bbox_dist, num_dest, extrapercent_travel, plot=False,
 					   dump=True, dump_file="dist_dump.pkl", plot_individuals=True):
 	c = Controller()
@@ -129,7 +130,7 @@ def compare_algorithms(graph_orig, graph_projected, origin_lat_long, bbox_lat_lo
 		dic["Shortest_Path"].append(total_actual)
 		dic_e["Shortest_Path"].append(dij_elevation)
 		
-		
+
 		route_actual_elev = nx.shortest_path(graph_projected, source=origin, target=destination, weight='grade_abs')
 		total_actual_elev = c.get_total_length(graph_projected, route_actual_elev)
 		
@@ -210,45 +211,45 @@ def compare_algorithms(graph_orig, graph_projected, origin_lat_long, bbox_lat_lo
 	dic["MAX"] = max_distance_val
 	dic_e["MAX"] = max_elevation_val
 	
-	d1 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
+	distance1 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
 		  "Modified_Dijkstra": dic["Modified_Dijkstra"]}
-	d2 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
+	distance2 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
 		  "DFS_1_min_elevation": dic["DFS_1_min_elevation"]}
-	d3 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
+	distance2 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
 		  "DFS_1_max_elevation": dic["DFS_1_max_elevation"]}
-	d4 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
+	distance4 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
 		  "hybrid_min_elevation": dic["hybrid_min_elevation"]}
-	d5 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
+	distance5 = {"MAX": dic["MAX"], "Shortest_Path": dic["Shortest_Path"], "Least_Elevation": dic["Least_Elevation"],
 		  "hybrid_max_elevation": dic["hybrid_max_elevation"]}
 
-	d1e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
+	distance1e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
 		  "Modified_Dijkstra": dic_e["Modified_Dijkstra"]}
-	d2e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
+	distance2e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
 		  "DFS_1_min_elevation": dic_e["DFS_1_min_elevation"]}
-	d3e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
+	distance3e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
 		  "DFS_1_max_elevation": dic_e["DFS_1_max_elevation"]}
-	d4e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
+	distance4e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
 		  "hybrid_min_elevation": dic_e["hybrid_min_elevation"]}
-	d5e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
+	distance5e = {"MAX": dic_e["MAX"], "Shortest_Path": dic_e["Shortest_Path"], "Least_Elevation": dic_e["Least_Elevation"],
 		  "hybrid_max_elevation": dic_e["hybrid_max_elevation"]}
 
 	if dump:
 		pkl.dump(dic, open(dump_file, "wb"))
 
 	if plot:
-		# plot_results(shortest, shortest_elev, algo_dist)
+		
 		plot_results_from_dict(dic)
-		plot_results_from_dict(d1, savename="Modified_Dijsktra_SP_LE")
-		plot_results_from_dict(d2, savename="DFS_1_min_elevation_SP_LE")
-		plot_results_from_dict(d3, savename="DFS_1_max_elevation_SP_LE")
-		plot_results_from_dict(d4, savename="hybrid_min_elevation_SP_LE")
-		plot_results_from_dict(d5, savename="hybrid_max_elevation_SP_LE")
+		plot_results_from_dict(distance1, savename="Modified_Dijsktra_SP_LE")
+		plot_results_from_dict(distance2, savename="DFS_1_min_elevation_SP_LE")
+		plot_results_from_dict(distance3, savename="DFS_1_max_elevation_SP_LE")
+		plot_results_from_dict(distance4, savename="hybrid_min_elevation_SP_LE")
+		plot_results_from_dict(distance5, savename="hybrid_max_elevation_SP_LE")
 
-		plot_results_from_dict(d1e, savename="Elev_Modified_Dijsktra_SP_LE"  ,elev=True)
-		plot_results_from_dict(d2e, savename="Elev_DFS_1_min_elevation_SP_LE",elev=True)
-		plot_results_from_dict(d3e, savename="Elev_DFS_1_max_elevation_SP_LE",elev=True)
-		plot_results_from_dict(d4e, savename="Elev_hybrid_min_elevation_SP_LE",elev=True)
-		plot_results_from_dict(d5e, savename="Elev_hybrid_max_elevation_SP_LE",elev=True)
+		plot_results_from_dict(distance1e, savename="Elev_Modified_Dijsktra_SP_LE"  ,elev=True)
+		plot_results_from_dict(distance2e, savename="Elev_DFS_1_min_elevation_SP_LE",elev=True)
+		plot_results_from_dict(distance3e, savename="Elev_DFS_1_max_elevation_SP_LE",elev=True)
+		plot_results_from_dict(distance4e, savename="Elev_hybrid_min_elevation_SP_LE",elev=True)
+		plot_results_from_dict(distance5e, savename="Elev_hybrid_max_elevation_SP_LE",elev=True)
 
 
 
