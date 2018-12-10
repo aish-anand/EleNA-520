@@ -19,15 +19,17 @@ class Controller(object):
 	def set_view(self, view):
 		self.view = view
 
+	# gets user input from view
 	def get_input(self):
-		#origin_lat, origin_long, dest_lat, dest_long, overhead, mode = self.view.get_data()
-		origin_lat, origin_long, dest_lat, dest_long, overhead, mode = 42.3524, -71.06643, 42.358226, -71.061260, 10, "minimize"
+		origin_lat, origin_long, dest_lat, dest_long, overhead, mode = self.view.get_data()
+		# testing without input
+		# origin_lat, origin_long, dest_lat, dest_long, overhead, mode = 42.3524, -71.06643, 42.358226, -71.061260, 10, "minimize"
+		#getting graph + graph with projections
 		graph_projection, graph_orig = self.get_map()
 		origin = ox.get_nearest_node(graph_orig,(float(origin_lat), float(origin_long)))  # (37.77, -122.426))
 		destination = ox.get_nearest_node(graph_orig,(float(dest_lat), float(dest_long)))  # (37.773, -122.441))
 		bbox = ox.bbox_from_point((float(origin_lat), float(origin_long)), distance=1500, project_utm=True)
-		# print(origin[0] + " "+ origin[1])
-		# print(dest[0] + " "+ dest[1])
+		#setting model's attributes
 		self.model.set_origin(origin)
 		self.model.set_dest(destination)
 		self.model.set_overhead(overhead)
@@ -35,17 +37,19 @@ class Controller(object):
 		self.model.set_bbox(bbox)
 		self.model.set_graph_projection(graph_projection)
 
+	# gets graphs and adds elevation
 	def get_map(self, place='Boston', new_place=False):
-		#if new_place == False:
-			# return pkl.load(open("graph_projected.pkl","rb")), pkl.load(open("graph.pkl","rb"))
+		if new_place == False:
+			return pkl.load(open("graph_projected.pkl","rb")), pkl.load(open("graph.pkl","rb"))
 
-		#Downloading Local map
+		#downloading local map
 		place = 'Boston'
 		place_query = {'city':'Boston', 'state':'Massachusetts', 'country':'USA'}
 		graph_orig = ox.graph_from_place(place_query, network_type='drive')
 
-		#Adding Elevation data from GoogleMaps
-		graph_orig = ox.add_node_elevations(graph_orig, api_key='AIzaSyDU_zAP8D2D9c54N9G5nMPYF52H5VZ_T4o')
+		#adding elevation data from GoogleMaps
+		#Enter the API key here
+		graph_orig = ox.add_node_elevations(graph_orig, api_key='')
 		graph_orig = ox.add_edge_grades(graph_orig)
 		pkl.dump(graph_orig, open("graph.pkl","wb"))
 
@@ -157,6 +161,7 @@ class Controller(object):
 					came_from[next] = current
 		return self.get_path(came_from, start, goal)
 
+	# exhaustive
 	def dfs_get_all_paths(self, graph, start, goal, max_length):
 		paths = []
 		def dfs(current, le, current_path, visited):
@@ -210,7 +215,6 @@ class Controller(object):
 				max_path = path
 		return min_path, max_path
 
-
 	def get_route(self):
 		graph_projection = self.model.get_graph_projection()
 		origin = self.model.get_origin()
@@ -229,8 +233,8 @@ class Controller(object):
 		self.view.show_stats(graph_projection, shortest_elevation_path)
 
 		shortest_path_length = self.get_total_length(graph_projection, shortest_path)
-		can_travel = ((100.0 + overhead)*shortest_path_length)/100.0
-		print("Distance you are willing to travel : ", can_travel )
+		# can_travel = ((100.0 + overhead)*shortest_path_length)/100.0
+		# print("Distance you are willing to travel : ", can_travel )
 
 		if algo == 1:
 			#algo1
