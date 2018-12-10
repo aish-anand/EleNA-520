@@ -8,7 +8,6 @@ import time
 #from model import *
 import pickle as pkl
 
-
 class Controller(object):
 	def _init_(self):
 		self.model = None
@@ -82,6 +81,12 @@ class Controller(object):
 			t = time.time()
 			route_minimize_elevation1 = self.dijkstra_search(graph_projection, origin, destination, can_travel, mode='minimize')
 			print ("Algorithm 1 took :", time.time()-t, " seconds")
+
+		if algo == 2:
+			#algo2
+			t = time.time()
+			route_minimize_elevation2, route_maximize_elevation2 = self.dfs_get_all_paths(graph_projection, origin, destination, can_travel)
+			print ("Algorithm 2 time:", time.time() - t)
 
 	def get_shortest_path(self, graph, source=0, target=0, weight='length'):
 		frontier = []
@@ -162,3 +167,38 @@ class Controller(object):
 					heappush(frontier, (priority, next))
 					came_from[next] = current
 		return self.get_path(came_from, start, goal)
+
+	def dfs_get_all_paths(self, graph, start, goal, max_length):
+		paths = []
+		def dfs(current, le, current_path, visited):
+			if current == goal:
+				if le > max_length:
+					return
+				else:
+					current_path.append(current)
+					paths.append(current_path)
+					#print ("This path length:",length)
+					#print ("path found")
+					return
+			if le > max_length:
+				return
+			for u, next_node, data in graph.edges(current, data=True):
+				if next_node in visited:
+					continue
+				dfs(next_node, le + abs(self.get_cost(graph, current, next_node)), current_path + [current], visited + [next_node])
+			return
+		dfs(start, 0, [], [])
+		print ("Total paths:", len(paths))
+		
+		min_val = sys.maxsize
+		max_val = -1*sys.maxsize
+		min_path, max_path = [], []
+		for path in paths:
+			elevation_data = self.get_total_elevation(graph, path)
+			if min_val != min(elevation_data, min_val):
+				min_val = elevation_data
+				min_path = path
+			if max_val != max(elevation_data, max_val):
+				max_val = elevation_data
+				max_path = path
+		return min_path, max_path
