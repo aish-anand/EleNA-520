@@ -9,14 +9,14 @@ import time
 from controller import *
 ox.config(log_console = True, use_cache = True)
 
-def get_map(place='Boston', new_place=False):
+def get_map(place='Boston', key, new_place=False):
 	if new_place == False:
 		return pkl.load(open("graph_projected.pkl", "rb")), pkl.load(open("graph.pkl", "rb"))
 
 	place_query = {'city': place, 'state': 'Massachusetts', 'country': 'USA'}
 	G = ox.graph_from_place(place_query, network_type='drive')
 
-	G = ox.add_node_elevations(G, api_key='AIzaSyDU_zAP8D2D9c54N9G5nMPYF52H5VZ_T4o')
+	G = ox.add_node_elevations(G, api_key=key)
 	G = ox.add_edge_grades(G)
 	pkl.dump(G, open("graph.pkl", "wb"))
 	G_proj = ox.project_graph(G)
@@ -224,11 +224,14 @@ def compare_algorithms(G, G_proj, origin_lat_long, bbox_lat_long, bbox_dist, num
 
 
 
-
-G_proj, G = get_map(new_place=True)
-extratravel = int(input("Please input the extra percent travel: Make sure its an integer value\n"))
-num_dest = int(input("Please input the number of destinations you want to check: Make sure this number is an integer value\n"))
-origin_lat = 37.772
-origin_long = -122.434
-
-compare_algorithms(G, G_proj, origin_lat_long=[origin_lat, origin_long], bbox_lat_long=(origin_lat, origin_long), bbox_dist=500, num_dest=num_dest, extrapercent_travel=extratravel, plot=True)
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser(description='Runs tests for all algorithms, expects api key to be passed when called')
+	parser.add_argument('--key', help='an API key for the elevation API')
+	args = parser.parse_args()
+	key = args.key
+	G_proj, G = get_map(place = "Boston", key= key, new_place=True)
+	extratravel = int(input("Please input the extra percent travel: Make sure its an integer value\n"))
+	num_dest = int(input("Please input the number of destinations you want to check: Make sure this number is an integer value\n"))
+	origin_lat = 37.772
+	origin_long = -122.434
+	compare_algorithms(G, G_proj, origin_lat_long=[origin_lat, origin_long], bbox_lat_long=(origin_lat, origin_long), bbox_dist=500, num_dest=num_dest, extrapercent_travel=extratravel, plot=True)
