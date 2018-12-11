@@ -12,6 +12,7 @@ class Model(object):
 		self.algo = None
 		self.bbox = None
 		self.impedence = None
+		self.key = None
 
 	#setters    
 	def set_origin(self, o):
@@ -34,6 +35,9 @@ class Model(object):
 
 	def set_graph_projection(self, graph_projection):
 		self.graph_projection = graph_projection
+
+	def set_key(self, key):
+		self.key = key
 
 	#getters
 
@@ -58,3 +62,5 @@ class Model(object):
 	def get_bbox(self):
 		return self.bbox
 
+	def get_key(self):
+		return self.key

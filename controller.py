@@ -39,8 +39,8 @@ class Controller(object):
 
 	# gets graphs and adds elevation
 	def get_map(self, place='Boston', new_place=False):
-		if new_place == False:
-			return pkl.load(open("graph_projected.pkl","rb")), pkl.load(open("graph.pkl","rb"))
+		# if new_place == False:
+		# 	return pkl.load(open("graph_projected.pkl","rb")), pkl.load(open("graph.pkl","rb"))
 
 		#downloading local map
 		place = 'Boston'
@@ -49,7 +49,7 @@ class Controller(object):
 
 		#adding elevation data from GoogleMaps
 		#Enter the API key here
-		graph_orig = ox.add_node_elevations(graph_orig, api_key='')
+		graph_orig = ox.add_node_elevations(graph_orig, api_key='AIzaSyDU_zAP8D2D9c54N9G5nMPYF52H5VZ_T4o')
 		graph_orig = ox.add_edge_grades(graph_orig)
 		pkl.dump(graph_orig, open("graph.pkl","wb"))
 
@@ -233,7 +233,7 @@ class Controller(object):
 		self.view.show_stats(graph_projection, shortest_elevation_path)
 
 		shortest_path_length = self.get_total_length(graph_projection, shortest_path)
-		# can_travel = ((100.0 + overhead)*shortest_path_length)/100.0
+		can_travel = ((100.0 + overhead)*shortest_path_length)/100.0
 		# print("Distance you are willing to travel : ", can_travel )
 
 		if algo == 1:

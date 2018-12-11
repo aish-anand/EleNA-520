@@ -3,7 +3,6 @@ import networkx as nx
 import numpy as np
 import pickle as pkl
 import sys
-from gmplot import gmplot
 import json
 import requests
 
