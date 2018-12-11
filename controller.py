@@ -21,9 +21,9 @@ class Controller(object):
 
 	# gets user input from view
 	def get_input(self):
-		origin_lat, origin_long, dest_lat, dest_long, overhead, mode = self.view.get_data()
+		#origin_lat, origin_long, dest_lat, dest_long, overhead, mode = self.view.get_data()
 		# testing without input
-		# origin_lat, origin_long, dest_lat, dest_long, overhead, mode = 42.3524, -71.06643, 42.358226, -71.061260, 10, "minimize"
+		origin_lat, origin_long, dest_lat, dest_long, overhead, mode = 42.3524, -71.06643, 42.358226, -71.061260, 10, "minimize"
 		#getting graph + graph with projections
 		graph_projection, graph_orig = self.get_map()
 		origin = ox.get_nearest_node(graph_orig,(float(origin_lat), float(origin_long)))  # (37.77, -122.426))
@@ -49,7 +49,8 @@ class Controller(object):
 
 		#adding elevation data from GoogleMaps
 		#Enter the API key here
-		graph_orig = ox.add_node_elevations(graph_orig, api_key='AIzaSyDU_zAP8D2D9c54N9G5nMPYF52H5VZ_T4o')
+		key = self.model.get_key()
+		graph_orig = ox.add_node_elevations(graph_orig, api_key=key)
 		graph_orig = ox.add_edge_grades(graph_orig)
 		pkl.dump(graph_orig, open("graph.pkl","wb"))
 
