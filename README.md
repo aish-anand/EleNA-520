@@ -22,7 +22,7 @@ The usual Navigation System tries to get the shortest or the fastest path from o
 test, use the following command:
 `python Test.py`
 ## Built With
-Python 3.7 and OSMNX
+Python 3.7 and OSMnx
 ## Versioning
 Git
 ## Authors
