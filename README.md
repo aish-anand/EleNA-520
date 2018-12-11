@@ -4,21 +4,21 @@ The usual Navigation System tries to get the shortest or the fastest path from o
 
 ## Getting Started
 ### Prerequisites
-Python 3.6 or above
-OSMNX for python 3.6 or above
+- Python 3.7
+- OSMnx for python 3.6 or above
 
 ### Installing
-Clone the following repository using the following command:
+- Clone the following repository using the following command:
 `git clone https://github.com/aish-anand/EleNA-520.git`
-Install the OSMnx library:
-with pip - `pip install osmnx`
-with conda - `conda install -c conda-forge osmnx`
-It recommended to create a new virtual environment to install the packages.
-
-Once the repository is cloned, simply navigate to the repository's directory and run the following command with the API key value provided in the report - 
+- Install the OSMnx library:
+	* with pip - `pip install osmnx`
+	* with conda - `conda install -c conda-forge osmnx`
+	It is recommended to create a new virtual environment to install the packages.
+- Once the repository is cloned, simply navigate to the repository's directory and run the following command with the API key value provided in the report
 `python Main.py --algorithm ALGORITHM VALUE --key APIKEY`
 ## Running the tests
-Running Tests - The test will accept amount of extra travel and number of destinations for testing as the input and generate graphs comparing the total length and elevation of routes by using the different algorithms. To run the 
+- The test will accept amount of extra travel and number of destinations for testing as the input and generate graphs comparing the total length and elevation of routes by using the different algorithms. 
+- To run the 
 test, use the following command:
 `python Test.py`
 ## Built With
