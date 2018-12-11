@@ -18,9 +18,10 @@ class Main(object):
 		controller_obj.set_model(model_obj)
 		view_obj.set_controller(controller_obj)
 		controller_obj.set_view(view_obj)
+		model_obj.set_key(self.key)
 		controller_obj.get_input()
 		model_obj.set_algo(self.algo)
-		model_obj.set_key(self.key)
+		print(self.key)
 		controller_obj.get_route()
 
 if __name__ == '__main__':
@@ -32,5 +33,5 @@ if __name__ == '__main__':
 	key = args.key
 	if(option not in ['1', '2', '3']):
 		raise ValueError("Please enter algorithm value of 1, 2 or 3")
-	model_obj = Main(int(option, key))
+	model_obj = Main(int(option), key)
 
